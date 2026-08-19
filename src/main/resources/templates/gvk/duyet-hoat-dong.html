@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::#main-content})}">
+<head>
+  <title>Giáo Vụ Khoa - Xét Duyệt Hoạt Động</title>
+</head>
+<body>
+
+<div id="main-content">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 style="color: #7DABD0;" class="fw-bold">📑 XÉT DUYỆT HOẠT ĐỘNG</h2>
+      <p class="text-muted">Danh sách các sự kiện do BTC đề xuất đang chờ phê duyệt</p>
+    </div>
+
+    <form th:action="@{/gvk/chot-diem-cuoi-ky}" method="post">
+      <button type="submit" class="btn btn-danger shadow-sm fw-bold px-4"
+              onclick="return confirm('Bạn có chắc chắn muốn chốt điểm rèn luyện cho toàn bộ sinh viên không?')">
+        CHỐT ĐIỂM CUỐI KỲ
+      </button>
+    </form>
+  </div>
+
+  <div th:if="${thongBao}" class="alert alert-info border-0 shadow-sm mb-4" role="alert">
+    <i class="bi bi-info-circle-fill me-2"></i> <span th:text="${thongBao}"></span>
+  </div>
+
+  <div class="card shadow-sm border-0" style="border-radius: 15px; overflow: hidden;">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead style="background-color: #CFE7EA; color: #437a82;">
+          <tr>
+            <th class="ps-4 py-3">Mã HĐ</th>
+            <th>Thông Tin Hoạt Động</th>
+            <th>Thời Gian Tổ Chức</th>
+            <th style="width: 30%;">Nội Dung Tóm Tắt</th>
+            <th class="text-center">Thao Tác Duyệt</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:if="${#lists.isEmpty(danhSachCho)}">
+            <td colspan="5" class="text-center py-5 text-muted">
+              <i class="bi bi-check2-circle fs-1"></i><br>
+              Hiện tại không có sự kiện nào đang chờ duyệt.
+            </td>
+          </tr>
+
+          <tr th:each="hd : ${danhSachCho}">
+            <td class="ps-4 fw-bold text-secondary" th:text="${hd.maHD}"></td>
+            <td>
+              <div class="fw-bold" th:text="${hd.tenHD}"></div>
+              <small class="badge bg-light text-dark border">Chờ GVK duyệt</small>
+            </td>
+            <td>
+              <div class="small fw-bold text-primary">
+                <i class="bi bi-calendar-event"></i>
+                [[${#temporals.format(hd.ngayBatDau, 'dd/MM/yyyy HH:mm')}]]
+              </div>
+            </td>
+            <td>
+              <small class="text-muted"
+                     style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"
+                     th:text="${hd.noiDungThongBao}">
+              </small>
+            </td>
+            <td class="text-center">
+              <form th:action="@{/gvk/xu-ly-duyet}" method="post" class="d-flex gap-2 justify-content-center">
+                <input type="hidden" name="maHD" th:value="${hd.maHD}">
+
+                <button type="submit" name="hanhDong" value="duyet"
+                        class="btn btn-sm text-white fw-bold shadow-sm"
+                        style="background-color: #7DABD0; border-radius: 8px;">
+                  Duyệt
+                </button>
+
+                <button type="submit" name="hanhDong" value="tuchoi"
+                        class="btn btn-sm fw-bold shadow-sm"
+                        style="background-color: #FBC1AD; color: #333; border-radius: 8px;">
+                  Từ Chối
+                </button>
+              </form>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <a th:href="@{/}" class="text-decoration-none text-muted fw-bold">Về Trang Chủ</a>
+  </div>
+</div>
+
+<style>
+  tbody tr:hover {
+    background-color: #f8fcfd !important;
+    cursor: pointer;
+  }
+  .btn-sm { padding: 8px 16px; min-width: 90px; }
+</style>
+
+</body>
+</html>

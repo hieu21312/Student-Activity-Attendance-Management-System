@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::#main-content})}">
+<head>
+  <title>BTC - Quản Lý Sự Kiện</title>
+</head>
+<body>
+
+<div id="main-content">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 style="color: #7DABD0;">🛠️ Khu Vực Quản Lý Hoạt Động</h2>
+    <a th:href="@{/btc/tao-hoat-dong}" class="btn shadow-sm fw-bold text-white"
+       style="background-color: #7DABD0; border-radius: 10px;">
+      + Tạo hoạt động mới
+    </a>
+  </div>
+
+  <div th:if="${thongBao}" class="alert alert-warning alert-dismissible fade show border-0 shadow-sm" role="alert">
+    <strong th:text="${thongBao}"></strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+
+  <div class="card shadow-sm border-0" style="border-radius: 15px; overflow: hidden;">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead style="background-color: #CFE7EA;">
+          <tr>
+            <th class="ps-4 py-3">Mã HĐ</th>
+            <th>Tên Sự Kiện</th>
+            <th>Trạng Thái Điểm Danh</th>
+            <th class="text-center">Thao Tác Quản Lý</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="hd : ${danhSachHD}">
+            <td class="ps-4 fw-bold text-secondary" th:text="${hd.maHD}"></td>
+            <td>
+              <div class="fw-bold" th:text="${hd.tenHD}"></div>
+              <small class="text-muted">Khoa Công nghệ Thông tin</small>
+            </td>
+            <td>
+                                <span th:if="${hd.thoiGianMoDiemDanhCV == null}"
+                                      class="badge bg-light text-secondary border">
+                                    <i class="bi bi-lock"></i> Đang đóng
+                                </span>
+              <span th:if="${hd.thoiGianMoDiemDanhCV != null}"
+                    class="badge bg-success-subtle text-success border border-success-subtle p-2">
+                                    <i class="bi bi-unlock"></i> Đã mở: [[${#temporals.format(hd.thoiGianMoDiemDanhCV, 'HH:mm:ss')}]]
+                                </span>
+            </td>
+            <td class="text-center">
+              <div class="d-flex justify-content-center align-items-center gap-2">
+
+                <form th:action="@{/btc/mo-diem-danh}" method="post" class="m-0">
+                  <input type="hidden" name="maHD" th:value="${hd.maHD}">
+                  <button type="submit" class="btn btn-sm fw-bold shadow-sm"
+                          style="background-color: #FFDF6F; border-radius: 8px;"
+                          th:disabled="${hd.thoiGianMoDiemDanhCV != null}">
+                    MỞ ĐIỂM DANH
+                  </button>
+                </form>
+
+                <a th:href="@{/btc/diem-danh-tham-gia(maHD=${hd.maHD})}"
+                   class="btn btn-sm fw-bold text-white shadow-sm"
+                   style="background-color: #FBC1AD; border-radius: 8px;">
+                  Đ.Danh Biểu Diễn
+                </a>
+
+                <a th:href="@{/xem-danh-sach(maHD=${hd.maHD})}"
+                   target="_blank" class="btn btn-sm btn-outline-secondary fw-bold shadow-sm"
+                   style="border-radius: 8px;">
+                  📄 Xem DS
+                </a>
+
+                <form th:if="${hd.thoiGianMoDiemDanhCV != null}" th:action="@{/btc/chot-so-co-vu}" method="post" class="m-0">
+                  <input type="hidden" name="maHD" th:value="${hd.maHD}">
+                  <button type="submit" class="btn btn-sm fw-bold text-white shadow-sm"
+                          style="background-color: #dc3545; border-radius: 8px;"
+                          onclick="return confirm('Bạn có chắc muốn chốt sổ? Ai chưa điểm danh sẽ bị đánh Vắng mặt ngay lập tức!')">
+                    🔒 Chốt sổ
+                  </button>
+                </form>
+              </div>
+            </td>
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <a th:href="@{/}" class="text-decoration-none text-muted fw-bold">🏠 Về trang chủ dành cho SV</a>
+  </div>
+</div>
+
+<style>
+  tbody tr { transition: 0.2s; }
+  tbody tr:hover { background-color: #fdfdfd !important; transform: scale(1.005); }
+  .btn-sm { padding: 8px 12px; }
+</style>
+
+</body>
+</html>

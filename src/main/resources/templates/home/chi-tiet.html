@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::#main-content})}">
+<head>
+  <title th:text="'Chi tiết: ' + ${hd.tenHD}"></title>
+</head>
+<body>
+
+<div id="main-content">
+  <div class="mb-3">
+    <a th:href="@{/}" class="text-decoration-none fw-bold" style="color: #7DABD0;">⬅️ Quay lại trang chủ</a>
+  </div>
+
+  <div class="card shadow-sm border-0" style="border-radius: 15px;">
+    <div class="card-header bg-white border-0 pt-4 px-4">
+      <h1 class="h3" th:text="${hd.tenHD}" style="color: #7DABD0;"></h1>
+      <span class="badge" style="background-color: #FBC1AD; color: #333;">Mã HĐ: [[${hd.maHD}]]</span>
+    </div>
+
+    <div class="card-body p-4">
+      <div class="alert shadow-sm border-0" style="background-color: #CFE7EA; color: #333;">
+        <h5 class="alert-heading border-bottom border-secondary pb-2">📌 Thông tin sự kiện</h5>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <p><b>Địa điểm:</b> <span th:text="${hd.diaDiem}"></span></p>
+            <p><b>Thời gian:</b> <span th:text="${#temporals.format(hd.ngayBatDau, 'dd/MM/yyyy HH:mm')}"></span></p>
+          </div>
+          <div class="col-md-6">
+            <p><b>Hạn đăng ký:</b> <span class="text-danger fw-bold" th:text="${#temporals.format(hd.hanDangKy, 'dd/MM/yyyy HH:mm')}"></span></p>
+            <p><b>Giới hạn:</b> <span th:text="${hd.soLuongToiDa}"></span> sinh viên</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <h5 style="color: #7DABD0;">Nội dung chương trình:</h5>
+        <p class="text-muted" style="white-space: pre-line;" th:text="${hd.noiDungThongBao}"></p>
+      </div>
+
+      <hr class="my-4">
+
+      <h5 class="mb-3">THAO TÁC ĐĂNG KÝ</h5>
+      <div class="d-flex flex-wrap gap-2">
+
+        <a th:href="@{/dang-ky-co-vu(maHD=${hd.maHD})}" class="btn border-0 shadow-sm fw-bold" style="background-color: #FBC1AD;">
+          🎉 Đăng ký Cổ vũ
+        </a>
+
+        <a th:if="${!hd.tenHD.contains('Hội thao')}"
+           th:href="@{/form-tham-gia(maHD=${hd.maHD})}"
+           class="btn btn-light border fw-bold">
+          🎤 Đăng ký Biểu diễn
+        </a>
+
+        <a th:href="@{/xem-danh-sach(maHD=${hd.maHD})}" class="btn btn-outline-secondary">
+          📄 Danh Sách
+        </a>
+
+        <a th:if="${hd.thoiGianMoDiemDanhCV != null}"
+           th:href="@{/form-diem-danh(maHD=${hd.maHD})}"
+           class="btn fw-bold shadow-sm px-4" style="background-color: #FFDF6F; border: 2px dashed #f56e4a;">
+          ⏱️ VÀO ĐIỂM DANH NGAY
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

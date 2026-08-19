@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::#main-content})}">
+<head>
+  <title>Xác Nhận Điểm Danh</title>
+</head>
+<body>
+
+<div id="main-content">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+
+      <div class="card shadow border-0" style="border-radius: 20px; overflow: hidden;">
+        <div class="card-header p-4 text-center border-0" style="background-color: #7DABD0; color: white;">
+          <h3 class="mb-0">XÁC NHẬN ĐIỂM DANH</h3>
+          <small class="opacity-75">Hệ thống điểm danh sinh viên Khoa CNTT</small>
+        </div>
+
+        <div class="card-body p-4 p-md-5 bg-white">
+          <div class="text-center mb-4">
+            <div class="display-1 text-warning mb-3">
+              <span style="color: #FFDF6F;">⏱️</span>
+            </div>
+            <h4 class="text-secondary">Bạn đang tham gia hoạt động</h4>
+            <h5 class="fw-bold" style="color: #5d8cad;" th:text="${tenHD}">Tên hoạt động</h5>
+          </div>
+
+          <form th:action="@{/xu-ly-diem-danh}" method="post">
+            <input type="hidden" name="maHD" th:value="${maHD}">
+
+            <div class="mb-4">
+              <label for="yKien" class="form-label fw-bold" style="color: #444;">
+                Ý kiến & Cảm nhận của bạn:
+              </label>
+              <textarea class="form-control border-0 shadow-sm"
+                        name="yKien"
+                        id="yKien"
+                        rows="4"
+                        style="background-color: #CFE7EA; border-radius: 12px; resize: none;"
+                        placeholder="Sự kiện rất hay, em mong muốn có thêm nhiều buổi như thế này..."></textarea>
+              <div class="form-text mt-2 text-muted italic">
+                * Ý kiến đóng góp giúp Khoa cải thiện chất lượng các hoạt động sau.
+              </div>
+            </div>
+
+            <div class="d-grid gap-2 mt-5">
+              <button type="submit" class="btn btn-lg fw-bold shadow-sm"
+                      style="background-color: #FBC1AD; color: #333; border-radius: 10px; transition: 0.3s;">
+                HOÀN TẤT ĐIỂM DANH
+              </button>
+              <a th:href="@{/}" class="btn btn-link text-decoration-none text-muted mt-2">
+                Hủy bỏ và Quay lại
+              </a>
+            </div>
+          </form>
+        </div>
+
+        <div class="card-footer bg-light border-0 py-3 text-center">
+          <small class="text-muted">Cảm ơn bạn đã tham gia hoạt động của Khoa!</small>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .btn-lg:hover {
+    background-color: #f7a68a !important;
+    transform: translateY(-2px);
+  }
+  textarea:focus {
+    background-color: #e0f0f2 !important;
+    box-shadow: 0 0 0 0.25rem rgba(125, 171, 208, 0.25) !important;
+    outline: none;
+  }
+</style>
+
+</body>
+</html>

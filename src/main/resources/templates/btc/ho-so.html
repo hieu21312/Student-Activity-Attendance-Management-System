@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::#main-content})}">
+<head>
+  <title>Hồ sơ Cán bộ</title>
+</head>
+<body>
+<div id="main-content" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg border-0" style="border-radius: 20px;">
+        <div class="card-header text-white text-center py-4"
+             th:style="${session.user.vaiTro == 'GiaoVu' ? 'background-color: darkblue;' : 'background-color: #7DABD0;'}">
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="100" class="mb-2">
+          <h3 class="fw-bold mb-0">THÔNG TIN CÁN BỘ</h3>
+        </div>
+        <div class="card-body p-4">
+          <table class="table table-borderless fs-5">
+            <tr>
+              <td class="text-secondary" width="40%">Mã Nhân viên:</td>
+              <td class="fw-bold" th:text="${nv?.maNV}"></td>
+            </tr>
+            <tr>
+              <td class="text-secondary">Họ và Tên:</td>
+              <td class="fw-bold" th:text="${nv?.hoTen}"></td>
+            </tr>
+            <tr>
+              <td class="text-secondary">Chức vụ:</td>
+              <td>
+                <span class="badge bg-info text-dark shadow-sm"
+                      th:text="${nv?.chucVu}">
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-secondary">Tài khoản:</td>
+              <td class="text-primary" th:text="${session.user.tenDangNhap}"></td>
+            </tr>
+          </table>
+          <hr>
+          <div class="text-center">
+            <p class="text-muted small">Mọi thay đổi thông tin vui lòng liên hệ Quản trị hệ thống.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

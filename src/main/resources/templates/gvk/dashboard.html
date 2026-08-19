@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::#main-content})}">
+<head>
+  <title>Bảng Điều Khiển Giáo Vụ Khoa</title>
+</head>
+<body>
+
+<div id="main-content" class="container mt-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+    <h2 style="color: #7DABD0; font-weight: bold;">TỔNG QUAN QUẢN TRỊ KHOA</h2>
+    <span class="badge p-2 fs-6 shadow-sm" style="background-color: #FBC1AD; color: #333;">
+      <i class="bi bi-shield-lock-fill"></i> Quyền: Giáo Vụ Khoa
+    </span>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-md-4">
+      <a th:href="@{/gvk/quan-ly-diem}" class="card text-decoration-none shadow-sm hover-card border-0"
+         style="background-color: #7DABD0; border-radius: 15px;">
+        <div class="card-body text-center py-4 text-white">
+          <i class="bi bi-calculator fs-1 mb-2"></i>
+          <h3 class="card-title fw-bold">QUẢN LÝ ĐIỂM</h3>
+          <p class="card-text opacity-75 small">Chốt điểm cuối kỳ sinh viên</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="#" class="card text-decoration-none shadow-sm hover-card border-0"
+         style="background-color: #CFE7EA; border-radius: 15px;">
+        <div class="card-body text-center py-4" style="color: #437a82;">
+          <i class="bi bi-people fs-1 mb-2"></i>
+          <h3 class="card-title fw-bold">QUẢN LÝ BTC</h3>
+          <p class="card-text opacity-75 small">Cấp/Khóa tài khoản quản trị</p>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a th:href="@{/gvk/duyet-hoat-dong}" class="card text-decoration-none shadow-sm hover-card border-0"
+         style="background-color: #FBC1AD; border-radius: 15px;">
+        <div class="card-body text-center py-4" style="color: #333;">
+          <i class="bi bi-file-earmark-check fs-1 mb-2"></i>
+          <h3 class="card-title fw-bold">DUYỆT SỰ KIỆN</h3>
+          <p class="card-text opacity-75 small">Phê duyệt đơn xin tổ chức</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <h4 style="color: #7DABD0; border-left: 5px solid #FBC1AD; padding-left: 10px;" class="mb-4 fw-bold">
+    Các sự kiện đang tổ chức / Đã kết thúc
+  </h4>
+
+  <div class="row">
+    <th:block th:each="hd : ${tatCaHD}" th:if="${hd.trangThaiHanhChinh == 1}">
+
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-0 h-100"
+             th:style="${hd.thoiGianMoDiemDanhCV != null} ? 'background-color: #fcfcfc; border-radius: 15px;' : 'background-color: #ffffff; border-left: 5px solid #7DABD0; border-radius: 15px;'">
+
+          <div class="card-body d-flex flex-direction-column">
+            <div class="w-100">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <h5 class="card-title fw-bold" style="color: #5d8cad;" th:text="${hd.tenHD}"></h5>
+
+                <span th:if="${hd.thoiGianMoDiemDanhCV == null}" class="badge rounded-pill bg-success-subtle text-success border border-success-subtle">
+                  Đang nhận đăng ký
+                </span>
+                <span th:if="${hd.thoiGianMoDiemDanhCV != null}" class="badge rounded-pill bg-light text-secondary border">
+                  Đã đóng form
+                </span>
+              </div>
+
+              <p class="card-text mb-1 small text-muted"><b>Địa điểm:</b> <span th:text="${hd.diaDiem}"></span></p>
+              <p class="card-text mb-3 small text-muted"><b>Bắt đầu:</b> <span th:if="${hd.ngayBatDau != null}" th:text="${#temporals.format(hd.ngayBatDau, 'dd/MM/yyyy HH:mm')}"></span></p>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-auto pt-3 border-top w-100">
+              <a th:href="@{/xem-danh-sach(maHD=${hd.maHD})}" target="_blank" class="btn btn-sm btn-outline-secondary fw-bold rounded-pill px-3">
+                <i class="bi bi-eye"></i> Xem DS
+              </a>
+
+              <a th:if="${hd.thoiGianMoDiemDanhCV != null}"
+                 th:href="@{/gvk/doi-chieu-diem(maHD=${hd.maHD})}"
+                 class="btn btn-sm fw-bold shadow-sm rounded-pill px-3" style="background-color: #FBC1AD; color: #333;">
+                <i class="bi bi-check-all"></i> Đối chiếu điểm
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </th:block>
+
+    <div th:if="${#lists.isEmpty(tatCaHD)}" class="col-12 text-center py-5">
+      <img src="https://cdn-icons-png.flaticon.com/512/7486/7486744.png" width="100" class="opacity-25 mb-3" alt="Empty">
+      <p class="text-muted italic">Chưa có hoạt động nào được phê duyệt.</p>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .hover-card {
+    transition: all 0.3s ease;
+  }
+  .hover-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(125, 171, 208, 0.3) !important;
+  }
+
+
+  .card { border-radius: 15px; }
+  .badge { font-weight: 600; padding: 0.5em 1em; }
+</style>
+
+</body>
+</html>

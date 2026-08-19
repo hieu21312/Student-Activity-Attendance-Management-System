@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::#main-content})}">
+<head>
+  <title>Chốt Điểm Cuối Kỳ</title>
+</head>
+<body>
+
+<div id="main-content" class="container mt-5">
+
+  <div th:if="${thongBao}" class="alert border-0 shadow-sm fade show" role="alert"
+       style="background-color: #CFE7EA; color: #437a82; border-left: 5px solid #7DABD0 !important;">
+    <h5 class="mb-0 fw-bold"><i class="bi bi-check-circle-fill me-2"></i> <span th:text="${thongBao}"></span></h5>
+  </div>
+
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <div class="card shadow-sm border-0" style="border-radius: 20px; overflow: hidden;">
+
+        <div class="card-header text-center py-4 border-0" style="background-color: #FBC1AD; color: #333;">
+          <h3 class="card-title mb-0 fw-bold"><i class="bi bi-exclamation-octagon-fill me-2"></i> KHU VỰC CHỐT ĐIỂM RÈN LUYỆN</h3>
+        </div>
+
+        <div class="card-body p-4 p-md-5" style="background-color: #fffaf9;">
+          <h5 class="fw-bold" style="color: #d97d5d;">Lưu ý quan trọng dành cho Giáo Vụ Khoa:</h5>
+
+          <ul class="mt-4 mb-4" style="list-style-type: none; padding-left: 0; line-height: 2;">
+            <li><i class="bi bi-dot fs-3 align-middle text-warning"></i> Hành động này sẽ tự động rà soát và tính điểm cho <b>TOÀN BỘ SINH VIÊN</b>.</li>
+            <li><i class="bi bi-dot fs-3 align-middle text-warning"></i> Hệ thống lấy mốc <b>70 điểm</b> làm chuẩn, sau đó cộng/trừ dựa trên lịch sử hoạt động.</li>
+            <li><i class="bi bi-dot fs-3 align-middle text-warning"></i> Sau khi chốt, điểm sẽ được cập nhật công khai vào Hồ sơ của sinh viên.</li>
+            <li><i class="bi bi-dot fs-3 align-middle text-warning"></i> <span style="color: #d97d5d; font-weight: bold;">CHỈ THỰC HIỆN</span> khi học kỳ đã hoàn toàn kết thúc!</li>
+          </ul>
+
+          <hr style="border-top: 2px dashed #FBC1AD; opacity: 0.5;">
+
+          <div class="text-center mt-5">
+            <form th:action="@{/gvk/chot-diem-cuoi-ky}" method="post">
+              <button type="submit" class="btn btn-lg shadow-sm fw-bold px-5 py-3 border-0"
+                      style="background-color: #7DABD0; color: white; border-radius: 12px; transition: 0.3s;"
+                      onclick="return confirm('CẢNH BÁO: Bạn có chắc chắn muốn CHỐT ĐIỂM RÈN LUYỆN cho TOÀN BỘ sinh viên không?')">
+                <i class="bi bi-arrow-repeat me-2"></i> CHỐT ĐIỂM CUỐI KỲ TỰ ĐỘNG
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card-footer text-muted text-center border-0 py-3" style="background-color: #f8f9fa;">
+          <small><i class="bi bi-shield-check"></i> Phân hệ Quản trị hệ thống - Quyền GVK</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+
+  .btn-lg:hover {
+    background-color: #5d8cad !important;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 20px rgba(125, 171, 208, 0.3) !important;
+  }
+
+  a { text-decoration: none !important; }
+</style>
+
+</body>
+</html>

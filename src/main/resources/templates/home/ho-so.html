@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::#main-content})}">
+<head>
+  <title>Hồ Sơ Sinh Viên</title>
+</head>
+<body>
+
+<div id="main-content">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card shadow-sm border-0 mb-4" style="border-radius: 15px;">
+        <div class="card-body text-center p-4">
+          <div class="mb-3">
+            <div class="rounded-circle d-inline-block p-3" style="background-color: #CFE7EA;">
+              <span class="fs-1">👤</span>
+            </div>
+          </div>
+          <h4 class="fw-bold" th:text="${sv.hoTen}" style="color: #7DABD0;"></h4>
+          <p class="text-muted">Mã SV: <span th:text="${sv.maSV}"></span></p>
+          <hr>
+          <div class="p-3" style="background-color: #f8f9fa; border-radius: 12px;">
+            <h6 class="text-secondary text-uppercase small fw-bold">Tổng Điểm Rèn Luyện</h6>
+            <h2 class="display-4 fw-bold" style="color: #f56e4a;">
+              <span th:text="${sv.tongDiemRL}">70</span>
+            </h2>
+            <div class="progress mb-2" style="height: 10px;">
+              <div class="progress-bar" role="progressbar"
+                   th:style="'width: ' + ${sv.tongDiemRL} + '%; background-color: #7DABD0;'"></div>
+            </div>
+            <small class="text-muted italic">*Điểm gốc mỗi kỳ là 70</small>
+          </div>
+
+          <div class="d-grid mt-4">
+            <a href="#" class="btn shadow-sm fw-bold" style="background-color: #FFDF6F; color: #333; border-radius: 8px;">
+              Gửi đơn khiếu nại
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="card shadow-sm border-0" style="border-radius: 15px; overflow: hidden;">
+        <div class="card-header border-0 py-3" style="background-color: #7DABD0;">
+          <h5 class="mb-0 text-white">🗓️ Lịch sử hoạt động trong kỳ</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+              <tr>
+                <th class="ps-4">Tên Sự Kiện</th>
+                <th>Vai trò</th>
+                <th class="text-center">Điểm cộng/trừ</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:if="${#lists.isEmpty(lichSu)}">
+                <td colspan="3" class="text-center py-5 text-muted">Bạn chưa tham gia hoạt động nào trong kỳ này.</td>
+              </tr>
+              <tr th:each="ls : ${lichSu}">
+                <td class="ps-4">
+                  <div class="fw-bold" th:text="${ls.hoatDong.tenHD}"></div>
+                  <small class="text-muted" th:text="${#temporals.format(ls.hoatDong.ngayBatDau, 'dd/MM/yyyy')}"></small>
+                </td>
+                <td>
+                  <span th:if="${ls.loaiDK == 1}" class="badge bg-info-subtle text-info border border-info-subtle">Biểu diễn</span>
+                  <span th:if="${ls.loaiDK == 2}" class="badge bg-primary-subtle text-primary border border-primary-subtle">Cổ vũ</span>
+                </td>
+                <td class="text-center fw-bold fs-5">
+                  <span th:if="${ls.diemCongTru > 0}" style="color: #28a745;" th:text="'+' + ${ls.diemCongTru}"></span>
+                  <span th:if="${ls.diemCongTru < 0}" style="color: #dc3545;" th:text="${ls.diemCongTru}"></span>
+                  <span th:if="${ls.diemCongTru == 0 || ls.diemCongTru == null}" class="text-muted">0</span>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

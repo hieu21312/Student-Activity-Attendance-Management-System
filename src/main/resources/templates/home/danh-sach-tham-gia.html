@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::#main-content})}">
+<head>
+  <title>Danh Sách Tham Gia</title>
+</head>
+<body>
+
+<div id="main-content">
+  <div class="mb-3">
+    <a th:href="@{/chi-tiet(maHD=${hd.maHD})}" class="text-decoration-none fw-bold" style="color: #7DABD0;">
+      ⬅️ Quay lại chi tiết sự kiện
+    </a>
+  </div>
+
+  <div class="p-4 mb-4 shadow-sm" style="background-color: white; border-radius: 15px; border-left: 10px solid #7DABD0;">
+    <h2 style="color: #7DABD0;">Danh Sách Đăng Ký Biểu Diễn / Thi Đấu</h2>
+    <h4 class="text-secondary" th:text="${hd.tenHD}"></h4>
+    <p class="mb-0 text-muted">
+      <i class="bi bi-info-circle"></i>
+      <b>Giới hạn:</b> <span class="badge bg-secondary" th:text="${hd.soLuongToiDa}"></span> người
+      <small class="ms-2">(Quy tắc: FIFO - Ai đăng ký trước duyệt trước)</small>
+    </p>
+  </div>
+
+  <div class="card shadow-sm border-0 mb-5" style="border-radius: 15px; overflow: hidden;">
+    <div class="card-header border-0 py-3" style="background-color: #CFE7EA;">
+      <h5 class="mb-0" style="color: #437a82;">DANH SÁCH CHÍNH THỨC</h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead style="background-color: #f8f9fa;">
+          <tr>
+            <th class="ps-4">STT</th>
+            <th>Mã SV</th>
+            <th>Tên Sinh Viên</th>
+            <th>Nội dung (Tiết mục)</th>
+            <th>Thời gian nộp</th>
+            <th class="text-center">Trạng thái</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:if="${#lists.isEmpty(dsChinhThuc)}">
+            <td colspan="6" class="text-center py-4 text-muted">Chưa có ai đăng ký tham gia.</td>
+          </tr>
+          <tr th:each="dk, iterStat : ${dsChinhThuc}">
+            <td class="ps-4 fw-bold" th:text="${iterStat.count}">1</td>
+            <td th:text="${dk.sinhVien.maSV}"></td>
+            <td th:text="${dk.sinhVien.hoTen}"></td>
+            <td th:text="${dk.ghiChu}"></td>
+            <td th:text="${#temporals.format(dk.thoiGianDangKy, 'HH:mm:ss dd/MM/yyyy')}"></td>
+            <td class="text-center">
+              <span class="badge rounded-pill" style="background-color: #7DABD0;">Thành công</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0 mb-4" style="border-radius: 15px; overflow: hidden;">
+    <div class="card-header border-0 py-3" style="background-color: #FBC1AD;">
+      <h5 class="mb-0 text-dark">DANH SÁCH DỰ BỊ</h5>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 text-muted">
+          <thead style="background-color: #f8f9fa;">
+          <tr>
+            <th class="ps-4">STT</th>
+            <th>Mã SV</th>
+            <th>Tên Sinh Viên</th>
+            <th>Nội dung (Tiết mục)</th>
+            <th>Thời gian nộp</th>
+            <th class="text-center">Trạng thái</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:if="${#lists.isEmpty(dsDuBi)}">
+            <td colspan="6" class="text-center py-4 text-muted small italic">Không có sinh viên nào trong danh sách dự bị.</td>
+          </tr>
+          <tr th:each="dk, iterStat : ${dsDuBi}">
+            <td class="ps-4" th:text="${iterStat.count}">1</td>
+            <td th:text="${dk.sinhVien.maSV}"></td>
+            <td th:text="${dk.sinhVien.hoTen}"></td>
+            <td th:text="${dk.ghiChu}"></td>
+            <td th:text="${#temporals.format(dk.thoiGianDangKy, 'HH:mm:ss dd/MM/yyyy')}"></td>
+            <td class="text-center">
+              <span class="badge rounded-pill bg-light text-secondary border">Dự bị</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer bg-light py-2">
+      <small class="text-danger">* Lưu ý: Các bạn trong danh sách này sẽ được đôn lên nếu danh sách chính thức có người hủy.</small>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

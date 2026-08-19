@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::#main-content})}">
+<head>
+  <title>BTC - Tạo Hoạt Động Mới</title>
+</head>
+<body>
+
+<div id="main-content">
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+
+      <div class="mb-3">
+        <a th:href="@{/btc/quan-ly}" class="text-decoration-none fw-bold" style="color: #7DABD0;">
+          ⬅️ Quay lại quản lý danh sách
+        </a>
+      </div>
+
+      <div class="card shadow-sm border-0" style="border-radius: 15px;">
+        <div class="card-header p-4 text-white" style="background-color: #7DABD0; border-radius: 15px 15px 0 0;">
+          <h3 class="mb-0"><i class="bi bi-calendar-plus"></i> Đề Xuất Sự Kiện Mới</h3>
+          <small class="opacity-75">Thông tin này sẽ được gửi cho Giáo vụ để duyệt hiển thị</small>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+          <form th:action="@{/btc/tao-hoat-dong}" th:object="${hoatDongMoi}" method="post">
+
+            <div class="row g-4">
+              <div class="col-md-6">
+                <h5 class="border-bottom pb-2 mb-3" style="color: #5d8cad;">📌 Thông tin chung</h5>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold small">Mã Hoạt Động (VD: HD03)</label>
+                  <input type="text" class="form-control shadow-sm border-0 bg-light"
+                         th:field="*{maHD}" required placeholder="Nhập mã duy nhất...">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold small">Tên Hoạt Động</label>
+                  <input type="text" class="form-control shadow-sm border-0 bg-light"
+                         th:field="*{tenHD}" required placeholder="VD: Hội thao Khoa CNTT 2024">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold small">Địa Điểm Tổ Chức</label>
+                  <input type="text" class="form-control shadow-sm border-0 bg-light"
+                         th:field="*{diaDiem}" required placeholder="Hội trường, Sân bóng...">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold small">Số lượng giới hạn (Người)</label>
+                  <input type="number" class="form-control shadow-sm border-0 bg-light"
+                         th:field="*{soLuongToiDa}" required min="1">
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <h5 class="border-bottom pb-2 mb-3" style="color: #5d8cad;">Mốc thời gian</h5>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold small">Ngày Bắt Đầu</label>
+                  <input type="datetime-local" class="form-control shadow-sm border-0"
+                         style="background-color: #CFE7EA;" th:field="*{ngayBatDau}" required>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold small">Ngày Kết Thúc</label>
+                  <input type="datetime-local" class="form-control shadow-sm border-0"
+                         style="background-color: #CFE7EA;" th:field="*{ngayKetThuc}" required>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold small">Hạn Đăng Ký Cuối Cùng</label>
+                  <input type="datetime-local" class="form-control shadow-sm border-0"
+                         style="background-color: #FBC1AD;" th:field="*{hanDangKy}" required>
+                  <div class="form-text small text-danger">* SV không thể đăng ký sau mốc này.</div>
+                </div>
+              </div>
+
+              <div class="col-12 mt-4">
+                <h5 class="border-bottom pb-2 mb-3" style="color: #5d8cad;">📝 Nội dung thông báo</h5>
+                <textarea class="form-control shadow-sm border-0 bg-light"
+                          th:field="*{noiDungThongBao}" rows="5"
+                          placeholder="Mô tả chi tiết nội dung sự kiện, quyền lợi sinh viên..."></textarea>
+              </div>
+            </div>
+
+            <div class="text-center mt-5">
+              <button type="submit" class="btn btn-lg px-5 text-white fw-bold shadow-sm"
+                      style="background-color: #7DABD0; border-radius: 10px;">
+                GỬI YÊU CẦU DUYỆT SỰ KIỆN
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .form-control:focus {
+    background-color: #fff !important;
+    border-color: #7DABD0 !important;
+    box-shadow: 0 0 0 0.25rem rgba(125, 171, 208, 0.2) !important;
+  }
+  .btn:hover {
+    background-color: #5d8cad !important;
+    transform: translateY(-2px);
+    transition: 0.3s;
+  }
+</style>
+
+</body>
+</html>

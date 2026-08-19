@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ Thống Điểm Danh - HUIT</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <style>
+    :root {
+      --primary-color: #7DABD0;
+      --secondary-color: #CFE7EA;
+      --accent-color: #FBC1AD;
+      --light-gray: #E5E1E0;
+    }
+    body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    nav {
+      background-color: white;
+      padding: 12px 20px; /* Thêm padding 2 bên */
+      border-bottom: 2px solid var(--secondary-color);
+      margin-bottom: 20px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    nav a:hover { color: #5d8cad; text-decoration: none; }
+
+    #toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 2000;
+    }
+
+    footer {
+      background-color: var(--light-gray);
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+      border-top: 3px solid var(--accent-color);
+      font-size: 0.9rem;
+    }
+
+    .container-content {
+      min-height: 70vh;
+      padding: 20px;
+    }
+    .form-control:focus {
+      background-color: #fff !important;
+      border-color: #7DABD0 !important;
+      box-shadow: 0 0 0 0.25rem rgba(125, 171, 208, 0.2) !important;
+    }
+    .btn[style*="background-color: #7DABD0"]:hover {
+      background-color: #5d8cad !important;
+      transform: translateY(-2px);
+      transition: 0.3s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+    }
+    .bg-pastel-success {
+      background-color: #7DABD0 !important;
+      color: white !important;
+    }
+    .bg-pastel-danger {
+      background-color: #FBC1AD !important;
+      color: #444 !important;
+    }
+    .toast {
+      border-radius: 12px !important;
+    }
+    nav{
+      padding: 10px 70px 10px 70px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="toast-container">
+  <div th:if="${thongBao}" class="toast show align-items-center border-0 shadow-lg"
+       th:classappend="${trangThai == 'xanh' ? 'bg-pastel-success' : 'bg-pastel-danger'}"
+       role="alert" aria-live="assertive" aria-atomic="true" id="liveToast">
+    <div class="d-flex">
+      <div class="toast-body">
+        <i class="bi bi-info-circle-fill me-2"></i>
+        <strong th:text="${thongBao}"></strong>
+      </div>
+      <button type="button"
+              class="btn-close me-2 m-auto"
+              th:classappend="${trangThai == 'xanh' ? 'btn-close-white' : ''}"
+              data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <h2 class="mb-0">HỆ THỐNG ĐIỂM DANH SINH VIÊN - KHOA CNTT</h2>
+</header>
+
+<nav class="shadow-sm d-flex justify-content-between align-items-center ">
+
+  <div>
+    <a th:href="@{${session.user.vaiTro == 'GiaoVu' ? '/gvk/dashboard' : (session.user.vaiTro == 'BTC' ? '/btc/quan-ly' : (session.user.vaiTro == 'SinhVien' ? '/' : '/login'))}}"
+       class="fs-6 d-flex align-items-center">
+    <i class="bi bi-house-door-fill"></i> Trang Chủ
+    </a>
+  </div>
+
+  <div class="d-flex align-items-center gap-4">
+    <a th:href="@{${session.user.vaiTro == 'GiaoVu' ? '/gvk/ho-so' : (session.user.vaiTro == 'BTC' ? '/btc/ho-so' : '/ho-so')}}"
+       class="text-decoration-none d-flex align-items-center">
+      <i class="bi bi-person-circle fs-4"></i>
+      <span class="ms-2 fw-bold" style="color: #444;" th:text="${session.user.tenDangNhap}"></span>
+    </a>
+
+    <a th:href="@{/logout}" class="btn btn-sm btn-outline-danger fw-bold d-flex align-items-center" style="border-radius: 8px;">
+      <i class="bi bi-box-arrow-right ms-2"></i>
+    </a>
+  </div>
+
+</nav>
+
+<div class="container container-content">
+  <div th:replace="${content}"></div>
+</div>
+
+<footer>
+  <p class="mb-1 fw-bold">Trường Đại học Công thương TP.HCM - HUIT</p>
+  <p class="mb-1">Khoa Công nghệ thông tin</p>
+  <p class="mb-0 text-muted">Nhóm 1 - Đồ án Phân tích thiết kế hệ thống thông tin</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var toastEl = document.getElementById('liveToast');
+    if (toastEl) {
+      // Tự động ẩn sau 10 giây
+      setTimeout(function() {
+        var bsToast = new bootstrap.Toast(toastEl);
+        bsToast.hide();
+      }, 10000);
+    }
+  });
+</script>
+</body>
+</html>
